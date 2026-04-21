@@ -61,11 +61,10 @@ contract TicketVerification {
         _;
     }
 
-    // ─── Functions ─────────────────────────────────────────────────────────────
+    //  Functions
 
-    /**
-     * @dev Create a new event.
-     */
+    // Create a new event.
+     
     function createEvent(
         string calldata name,
         uint256 date,
@@ -94,9 +93,8 @@ contract TicketVerification {
         return eventId;
     }
 
-    /**
-     * @dev Mint a ticket for an event. Caller pays ticket price.
-     */
+    // Mint a ticket for an event. Caller pays ticket price.
+     
     function mintTicket(uint256 eventId) external payable returns (uint256) {
         Event storage ev = events[eventId];
         require(ev.exists, "Event does not exist");
@@ -131,9 +129,8 @@ contract TicketVerification {
         return ticketId;
     }
 
-    /**
-     * @dev Transfer ticket ownership to another wallet.
-     */
+    // Transfer ticket ownership to another wallet.
+
     function transferTicket(uint256 ticketId, address to)
         external
         onlyTicketOwner(ticketId)
@@ -152,9 +149,8 @@ contract TicketVerification {
         emit TicketTransferred(ticketId, from, to);
     }
 
-    /**
-     * @dev Verify a ticket — returns its details.
-     */
+    // Verify a ticket — returns its details.
+     
     function verifyTicket(uint256 ticketId)
         external
         view
@@ -172,9 +168,8 @@ contract TicketVerification {
         return (t.ticketId, t.eventId, t.owner, t.timestamp, t.isUsed, t.exists);
     }
 
-    /**
-     * @dev Mark a ticket as used. Only the event organizer can call this.
-     */
+    // Mark a ticket as used. Only the event organizer can call this.
+     
     function useTicket(uint256 ticketId) external ticketNotUsed(ticketId) {
         Ticket storage t = tickets[ticketId];
         require(t.exists, "Ticket does not exist");
@@ -189,30 +184,26 @@ contract TicketVerification {
         emit TicketUsed(ticketId, eventId);
     }
 
-    /**
-     * @dev Get all ticket IDs owned by a user.
-     */
+    // Get all ticket IDs owned by a user.
+    
     function getUserTickets(address user) external view returns (uint256[] memory) {
         return userTickets[user];
     }
 
-    /**
-     * @dev Get all ticket IDs for an event.
-     */
+    // Get all ticket IDs for an event.
+     
     function getEventTickets(uint256 eventId) external view returns (uint256[] memory) {
         return eventTickets[eventId];
     }
 
-    /**
-     * @dev Get event count.
-     */
+    // Get event count.
+     
     function getEventCount() external view returns (uint256) {
         return _eventCounter;
     }
 
-    /**
-     * @dev Get ticket count.
-     */
+    // Get ticket count.
+     
     function getTicketCount() external view returns (uint256) {
         return _ticketCounter;
     }
